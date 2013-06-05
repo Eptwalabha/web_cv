@@ -1,0 +1,12 @@
+@CHARSET "UTF-8";
+
+@import url('bootstrap.css');
+
+@import url('bootstrap-responsive.css');
+
+@import url('docs.css');
+
+
+p {
+	text-align: justify;
+}
