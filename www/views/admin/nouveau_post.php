@@ -3,7 +3,7 @@
 <div class="row">
 	<div class="span7">
 		<h3>Nouveau post</h3>
-		<form action="" method="post" data-id-post="" id="form_new_post">
+		<form action="<?php echo WEBROOT."admin/publishPost"; ?>" method="post" data-id-post="" id="form_new_post">
 			<div>
 				<input id="form_new_post_title" type="text" name="post_title" placeholder="Titre du post" class="span4"/>
 				<select id="form_new_post_type" class="span4" >
@@ -26,8 +26,8 @@
 				<button id="b_new_tag" class="btn" type="button" title="ajouter le tag"><i class="icon-tags"></i> <i class="icon-plus"></i></button>
 			</div>
 			<div>
-				<p id='tag_info' />
-				<p id="tags_list" />
+				<p id="tag_info"></p>
+				<p id="tags_list"></p>
 			</div>
 			<div>
 				<button id="b_publish" class="btn btn-success" type="button" title="publier le post!"><i class="icon-white icon-thumbs-up"></i> Publier!</button>
@@ -46,7 +46,7 @@
 </div>
 <script>
 
-	$(function() {
+	$( function() {
 
 		majSavedPostPanel();
 		$('#b_new_tag').on('click', ajouterTag);

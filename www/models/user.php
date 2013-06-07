@@ -6,6 +6,17 @@ class user extends Model {
 	
 	public function user() {}
 	
+	public function getUserField($field, $html = true) {
+		
+		$result = '';
+		
+		if (isset($this->$field)) {
+			$result = ($html) ? htmlentities($this->$field, ENT_QUOTES, "utf-8") : $this->$field;
+		}
+		
+		return $result;
+	}
+	
 	public function getUserID() {
 		if (isset($this->usr_id)) return $this->usr_id;
 	}
@@ -24,7 +35,7 @@ class user extends Model {
 		if (isset($this->usr_last_name)) {
 			return ($html) ? htmlentities($this->usr_last_name, ENT_QUOTES, "utf-8") : $this->usr_last_name;
 		}
-	
+		
 		return false;
 	}
 
@@ -88,6 +99,66 @@ class user extends Model {
 		return isset($this->usr_town)? $this->usr_town : "";
 	}
 	
+	public function getUserPicture() {
+		return isset($this->usr_picture)? $this->usr_picture : "default.png";
+	}
+
+	//*******************************************
+	//*				  SETTERS					*
+	//*******************************************
+	
+	public function setUserFirstName($usr_first_name) {
+		$this->usr_first_name = strtolower($usr_first_name);
+	}
+	
+	public function setUserLastName($usr_last_name) {
+		$this->usr_last_name = strtolower($usr_last_name);
+	}
+	
+	public function setUserDescription($usr_text) {
+		$this->usr_text = $usr_text;
+	}
+	
+	public function setUserAddress1($usr_address_line1) {
+		$this->usr_address_line1 = $usr_address_line1;
+	}
+	
+	public function setUserAddress2($usr_address_line2) {
+		$this->usr_address_line2 = $usr_address_line2;
+	}
+	
+	public function setUserAddress3($usr_address_line3) {
+		$this->usr_address_line3 = $usr_address_line3;
+	}
+	
+	public function setUserMail($usr_mail) {
+		$this->usr_mail = strtolower($usr_mail);
+	}
+	
+	public function setUserPhone($usr_phone) {
+		$this->usr_phone = $usr_phone;
+	}
+	
+	public function setUserCell($usr_cell) {
+		$this->usr_cell = $usr_cell;
+	}
+	
+	public function setUserZipCode($usr_zip_code) {
+		$this->usr_zip_code = $usr_zip_code;
+	}
+	
+	public function setUserTown($usr_town) {
+		$this->usr_town = strtolower($usr_town);
+	}
+	
+	public function setUserPassword($password) {
+		$this->usr_passwd = hash("sha256", $password);
+	}
+	
+	public function setUserLogin($login) {
+		$this->usr_login = $login;
+	}
+	
 	/**
 	 * Charge l'utilisateur de la base de données en fonction du login et du mot de passe.
 	 * Retourne false si le couple login/mot de passe n'est pas correcte.
@@ -118,6 +189,126 @@ class user extends Model {
 				return true;
 			}
 			
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Vérifie que le mot de passe et le login sont bien ceux de l'administrateur.
+	 * @param unknown $login
+	 * @param unknown $password
+	 * @return boolean
+	 */
+	public function checkPassword($login, $password) {
+		
+		$sql = 	"select * ".
+				"from ".$this->table_name." ".
+				"where usr_login = :login and usr_passwd = :passwd";
+			
+		$fields = array();
+			
+		$fields[':login'] = $login;
+		$fields[':passwd'] = hash("sha256", $password);
+		
+		$result = connection::getConnection()->doExecPDO($sql, $fields);
+		$statement = $result->fetch();
+			
+		if ($statement) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public function updateProfil() {
+
+		$fields = array();
+		$sets = array();
+			
+		if (isset($this->usr_first_name)) {
+			$sets[] = "usr_first_name = :usr_first_name";
+			$fields[':usr_first_name'] = $this->usr_first_name;
+		}
+		if (isset($this->usr_last_name)) {
+			$sets[] = "usr_last_name = :usr_last_name";
+			$fields[':usr_last_name'] = $this->usr_last_name;
+		}
+		if (isset($this->usr_mail)) {
+			$sets[] = "usr_mail = :usr_mail";
+			$fields[':usr_mail'] = $this->usr_mail;
+		}
+		if (isset($this->usr_text)) {
+			$sets[] = "usr_text = :usr_text";
+			$fields[':usr_text'] = $this->usr_text;
+		}
+		if (isset($this->usr_address_line1)) {
+			$sets[] = "usr_address_line1 = :usr_address_line1";
+			$fields[':usr_address_line1'] = $this->usr_address_line1;
+		}
+		if (isset($this->usr_address_line2)) {
+			$sets[] = "usr_address_line2 = :usr_address_line2";
+			$fields[':usr_address_line2'] = $this->usr_address_line2;
+		}
+		if (isset($this->usr_address_line3)) {
+			$sets[] = " usr_address_line3 = :usr_address_line3";
+			$fields[':usr_address_line3'] = $this->usr_address_line3;
+		}
+		if (isset($this->usr_phone)) {
+			$sets[] = "usr_phone = :usr_phone";
+			$fields[':usr_phone'] = $this->usr_phone;
+		}
+		if (isset($this->usr_cell)) {
+			$sets[] = "usr_cell = :usr_cell";
+			$fields[':usr_cell'] = $this->usr_cell;
+		}
+		if (isset($this->usr_zip_code)) {
+			$sets[] = "usr_zip_code = :usr_zip_code";
+			$fields[':usr_zip_code'] = $this->usr_zip_code;
+		}
+		if (isset($this->usr_town)) {
+			$sets[] = "usr_town = :usr_town";
+			$fields[':usr_town'] = $this->usr_town;
+		}
+		
+		$set = implode(', ', $sets);
+		
+		$sql = 	"update ".$this->table_name." ".
+				"set $set ".
+				"where usr_id = 1";
+		
+		if (count($sets) > 0) {
+				return connection::getConnection()->doExecPDO($sql, $fields);
+		}
+		
+		return false;
+	}
+	
+	public function updateAdminProfil() {
+		
+		if (isset($this->usr_id)) {
+			
+			$fields = array();
+			$sets = array();
+				
+			if (isset($this->usr_passwd)) {
+				$sets[] = "usr_passwd = :usr_passwd";
+				$fields[':usr_passwd'] = $this->usr_passwd;
+			}
+			if (isset($this->usr_login)) {
+				$sets[] = "usr_login = :usr_login";
+				$fields[':usr_login'] = $this->usr_login;
+			}
+			
+			$set = implode(', ', $sets);
+		
+			$sql = 	"update ".$this->table_name." ".
+					"set $set ".
+					"where usr_id = ".$this->usr_id;
+		
+			if (count($sets) > 0) {
+				return connection::getConnection()->doExecPDO($sql, $fields);
+			}
 		}
 		
 		return false;

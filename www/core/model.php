@@ -22,11 +22,6 @@ abstract class Model{
 		}
 		
 	}
-		
-	public function getField($field) {
-		
-		return isset($this->$field) ? $this->$field : "";
-	}
 	
 	public function update($data = array()) {
 		

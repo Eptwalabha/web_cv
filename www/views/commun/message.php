@@ -1,6 +1,7 @@
 <?php
-if (isset($messages)) {
 
+if (isset($messages)) {
+	
 	foreach ($messages as $message) {
 		
 		$title = strlen($message['title']) ? "<h4>".$message['title']."</h4>" : "";
