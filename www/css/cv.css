@@ -1,0 +1,37 @@
+@CHARSET "utf-8";
+
+.domain_title {
+
+	background-color: #D0E7FF;
+	border-radius: 5px;
+	margin-top: 10px;
+}
+
+.domain_title p {
+	margin-top: 10px;
+	padding-right: 10px;
+}
+
+.domain_title h4 {
+	padding-left: 10px;
+}
+
+ul, li {
+	
+	list-style-type: none;
+}
+
+.description_domain {
+	
+	margin-top: 10px;
+}
+
+.non_visible {
+	
+	background-color: #F8D078;
+}
+
+.sort_domain .domain_containt {
+	
+	display: none;
+}

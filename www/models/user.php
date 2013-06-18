@@ -159,6 +159,10 @@ class user extends Model {
 		$this->usr_login = $login;
 	}
 	
+	public function setUserPicture($usr_picture) {
+		$this->usr_picture = $usr_picture;
+	}
+	
 	/**
 	 * Charge l'utilisateur de la base de données en fonction du login et du mot de passe.
 	 * Retourne false si le couple login/mot de passe n'est pas correcte.
@@ -270,6 +274,10 @@ class user extends Model {
 			$sets[] = "usr_town = :usr_town";
 			$fields[':usr_town'] = $this->usr_town;
 		}
+		if (isset($this->usr_picture)) {
+			$sets[] = "usr_picture = :usr_picture";
+			$fields[':usr_picture'] = $this->usr_picture;
+		}
 		
 		$set = implode(', ', $sets);
 		
@@ -325,7 +333,7 @@ class user extends Model {
 		$fields = 	"usr_login as 'login', usr_first_name as 'first_name', usr_last_name as 'last_name', ".
 					"usr_mail as 'mail', usr_phone as 'phone', usr_cell as 'cell', ". 
 					"usr_address_line1 as 'address1', usr_address_line2 as 'address2', usr_address_line3 as 'address3', ".
-					"usr_cp as 'cp', usr_town as 'town', usr_description as 'description'";
+					"usr_cp as 'cp', usr_town as 'town', usr_description as 'description', usr_picture as 'picture'";
 		
 		$result = $this->read($fields, $this->table_name);
 		
@@ -386,6 +394,7 @@ class user extends Model {
 		$this->usr_address_line3 = isset($statement['usr_address_line3']) ? (string) $statement['usr_address_line3'] : null;
 		$this->usr_zip_code = isset($statement['usr_zip_code']) ? (string) $statement['usr_zip_code'] : null;
 		$this->usr_town = isset($statement['usr_town']) ? (string) $statement['usr_town'] : null;
+		$this->usr_picture = isset($statement['usr_picture']) ? (string) $statement['usr_picture'] : "default.png";
 		
 		if ($usr_passwd) {
 			$this->usr_passwd = isset($statement['usr_passwd']) ? (string) $statement['usr_passwd'] : null;

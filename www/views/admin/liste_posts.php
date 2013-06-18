@@ -1,7 +1,17 @@
+<?php 
+	$raw_date = $post->getRawBlogPostDate();
+	
+	$liste = explode(' ', $raw_date);
+	$dates = explode('-', $liste[0]);
+	
+	$date = $dates[2].'-'.$dates[1].'-'.$dates[0];
+	
+	$heures = isset($liste[1])? explode(':', $liste[1]) :  explode(':', '00:00:00');
+	$heure = $heures[0].'h'.$heures[1];
+?>
 <tr>
-	<td>
+	<td title="<?php echo $heure; ?>">
 	<?php 
-		$date = $post->getBlogPostDate();
 		echo $date;
 	?>
 	</td>

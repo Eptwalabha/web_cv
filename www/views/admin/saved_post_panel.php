@@ -2,6 +2,7 @@
 
 	$nbr_saved_post = isset($list_posts)? count($list_posts) : 0;
 	if ($nbr_saved_post) {
+		
 ?>
 <table class="table table-condensed table-striped">
 	<thead>
@@ -15,9 +16,19 @@
 <?php
 		
 		foreach ($list_posts as $post) {
+
+			$raw_date = $post->getRawBlogPostDate();
+			
+			$liste = explode(' ', $raw_date);
+			$dates = explode('-', $liste[0]);
+			
+			$date = $dates[2].'-'.$dates[1].'-'.$dates[0];
+			
+			$heures = isset($liste[1])? explode(':', $liste[1]) :  explode(':', '00:00:00');
+			$heure = $heures[0].'h'.$heures[1];
 ?>
 		<tr>
-			<td>
+			<td title="<?php echo $heure; ?>">
 			<?php
 				echo $post->getBlogPostDate();
 			?>

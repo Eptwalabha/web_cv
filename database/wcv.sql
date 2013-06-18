@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Mer 05 Juin 2013 à 09:50
+-- Généré le: Mer 19 Juin 2013 à 01:05
 -- Version du serveur: 5.6.11-log
 -- Version de PHP: 5.3.25
 
@@ -40,7 +40,18 @@ CREATE TABLE IF NOT EXISTS `blog_post` (
   PRIMARY KEY (`bp_id`),
   KEY `bp_bt_id` (`bp_bt_id`,`bp_usr_id`),
   KEY `bp_usr_id` (`bp_usr_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=8 ;
+
+--
+-- Contenu de la table `blog_post`
+--
+
+INSERT INTO `blog_post` (`bp_id`, `bp_title`, `bp_text`, `bp_date`, `bp_date_edit`, `bp_state`, `bp_bt_id`, `bp_usr_id`) VALUES
+(1, 'hello', 'hello', '2013-06-06 20:13:12', NULL, 1, 1, 1),
+(2, 'test', 'test', '2013-06-06 20:13:14', NULL, 2, 1, 1),
+(3, 'test', 'test', '2013-06-07 00:49:44', NULL, 1, 1, 1),
+(6, 'plop', 'how are you?', '2013-06-09 02:03:56', NULL, 2, 1, 1),
+(7, 'first title', 'ka-boom', '2013-06-09 02:04:04', NULL, 2, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -74,18 +85,18 @@ CREATE TABLE IF NOT EXISTS `domain` (
   `dom_id` int(11) NOT NULL AUTO_INCREMENT,
   `dom_title` varchar(50) COLLATE utf8_bin NOT NULL,
   `dom_text` text COLLATE utf8_bin,
+  `dom_visible` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`dom_id`),
   UNIQUE KEY `dom_title` (`dom_title`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=36 ;
 
 --
 -- Contenu de la table `domain`
 --
 
-INSERT INTO `domain` (`dom_id`, `dom_title`, `dom_text`) VALUES
-(1, 'test', ''),
-(2, 'c''est la fÃªte BiBi!', ''),
-(3, '<strong>T-T</strong>', '');
+INSERT INTO `domain` (`dom_id`, `dom_title`, `dom_text`, `dom_visible`) VALUES
+(1, 'ExpÃ©riences professionnelles', '', 1),
+(2, 'Formations', '', 1),
 
 -- --------------------------------------------------------
 
@@ -106,7 +117,13 @@ CREATE TABLE IF NOT EXISTS `field` (
   PRIMARY KEY (`fie_id`),
   KEY `fie_dom_id` (`fie_dom_id`,`fie_usr_id`),
   KEY `fie_usr_id` (`fie_usr_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=18 ;
+
+--
+-- Contenu de la table `field`
+--
+
+INSERT INTO `field` (`fie_id`, `fie_title`, `fie_text`, `fie_lvl`, `fie_date_start`, `fie_date_end`, `fie_visible`, `fie_dom_id`, `fie_usr_id`) VALUES
 
 -- --------------------------------------------------------
 
@@ -170,6 +187,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `usr_zip_code` varchar(10) COLLATE utf8_bin DEFAULT NULL,
   `usr_town` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `usr_passwd` varchar(64) COLLATE utf8_bin NOT NULL,
+  `usr_picture` varchar(100) COLLATE utf8_bin NOT NULL DEFAULT 'default.png',
   PRIMARY KEY (`usr_id`),
   UNIQUE KEY `usr_mail` (`usr_mail`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=2 ;
@@ -178,8 +196,8 @@ CREATE TABLE IF NOT EXISTS `user` (
 -- Contenu de la table `user`
 --
 
-INSERT INTO `user` (`usr_id`, `usr_first_name`, `usr_last_name`, `usr_mail`, `usr_login`, `usr_text`, `usr_address_line1`, `usr_address_line2`, `usr_address_line3`, `usr_phone`, `usr_cell`, `usr_zip_code`, `usr_town`, `usr_passwd`) VALUES
-(1, 'damien', 'gabrielle', 'damien.gabrielle@epsi.fr', 'damien', 'no description to give right now', 'apt 17 residence SQUARE PRIMEROSE', '221-225 avenue de la REPUBLIQUE', '', '', '0648743356', '33200', 'bordeaux', '31f7a65e315586ac198bd798b6629ce4903d0899476d5741a9f32e2e521b6a66');
+INSERT INTO `user` (`usr_id`, `usr_first_name`, `usr_last_name`, `usr_mail`, `usr_login`, `usr_text`, `usr_address_line1`, `usr_address_line2`, `usr_address_line3`, `usr_phone`, `usr_cell`, `usr_zip_code`, `usr_town`, `usr_passwd`, `usr_picture`) VALUES
+(1, 'damien', 'gabrielle', 'damien.gabrielle@epsi.fr', 'damien', '', 'apt nÂ°17, rÃ©sidence SQUARE PRIMEROSE', '221-225 avenue de la REPUBLIQUE', '', '', '0648743356', '33200', 'bordeaux', '31f7a65e315586ac198bd798b6629ce4903d0899476d5741a9f32e2e521b6a66', 'default.png');
 
 --
 -- Contraintes pour les tables exportées
@@ -196,8 +214,8 @@ ALTER TABLE `blog_post`
 -- Contraintes pour la table `field`
 --
 ALTER TABLE `field`
-  ADD CONSTRAINT `field_ibfk_1` FOREIGN KEY (`fie_dom_id`) REFERENCES `domain` (`dom_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `field_ibfk_2` FOREIGN KEY (`fie_usr_id`) REFERENCES `user` (`usr_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `field_ibfk_1` FOREIGN KEY (`fie_dom_id`) REFERENCES `domain` (`dom_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `field_ibfk_2` FOREIGN KEY (`fie_usr_id`) REFERENCES `user` (`usr_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `position`

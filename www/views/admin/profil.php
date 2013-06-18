@@ -38,7 +38,7 @@
 	</div>
 	<div class="span4">
 		<h3>Photo</h3>
-		<img alt="photo de <?php echo isset($user)? $user->getUserField('usr_login') : ''; ?>" src="<?php	echo (isset($user))? WEBROOT."img/private/".$user->getUserPicture() : WEBROOT."img/private/default.png"; ?>" class="img-polaroid span3" />
+		<img alt="photo de <?php echo isset($user)? $user->getUserField('usr_login') : ''; ?>" src="<?php	echo (isset($user))? WEBROOT."img/public/".$user->getUserPicture() : WEBROOT."img/private/default.png"; ?>" class="img-polaroid span3" />
 		
 	</div>
 	<div class="span4">

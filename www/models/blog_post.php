@@ -71,6 +71,11 @@ class blog_post extends model{
 		return $date_return;
 	}
 	
+	
+	public function getRawBlogPostDate() {
+		return isset($this->bp_date)? $this->bp_date : '';
+	}
+	
 	/**
 	 * Retourne la date de la dernière modification sur le post en cours.
 	 * @return string $bp_date_edit la date de la dernière modification du post.

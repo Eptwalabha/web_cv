@@ -6,20 +6,23 @@
 			</a>
 		</li>
 		<?php
-		if (isset($domain)) {
+		if (isset($domains)) {
 				
 			foreach ($domains as $domain) {
-				$id = $domain['id_domain'];
-				$nom = $domain['nom_domain'];
+
+				$dom_visible = $domain->isDomainVisible();
+				$admin = isset($_SESSION['admin_en_ligne']) ? $_SESSION['admin_en_ligne'] : false;
+				
+				if ($dom_visible || $admin) {
 		?>
 		<li>
-			<a href="#domain_<?php echo $id; ?>">
-				<i class="icon-chevron-right"></i> <?php echo $nom; ?>
+			<a href="#domain_<?php echo $domain->getDomainID(); ?>">
+				<i class="icon-chevron-right"></i> <?php echo $domain->getDomainTitle(); ?>
 			</a>
 		</li>
-		<?php 
+		<?php
+				}
 			}
-			
 		}
 		?>
 	</ul>

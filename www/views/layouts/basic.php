@@ -13,6 +13,20 @@
 		<script type="text/javascript" src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
 		
 		<link type="text/css" rel="Stylesheet" href="<?php echo WEBROOT; ?>js/jquery-ui-1.9.1.custom.css">
+
+<?php
+
+global $controller_name;
+
+$css_file = ROOT."css/".$controller_name.".css";
+$css_path = WEBROOT."css/".$controller_name.".css";
+
+if (file_exists($css_file)) {
+?>
+		<link type="text/css" rel="Stylesheet" href="<?php echo $css_path; ?>">
+<?php 
+}
+?>
 		<link type="text/css" rel="Stylesheet" href="<?php echo WEBROOT; ?>css/main.css">
 		
 	</head>

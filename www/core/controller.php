@@ -35,6 +35,7 @@ abstract class controller {
 		extract($this->vars);
 		ob_start();
 		require(ROOT."views/".strtolower(get_class($this))."/".strtolower($file_name).".php");
+		
 		$layout_content = ob_get_clean();
 		if($basic_layout == false){
 			echo $layout_content;

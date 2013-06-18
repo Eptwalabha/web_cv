@@ -24,6 +24,11 @@
 			$title = "Administration";
 			break;
 			
+		case MENU_BLOG:
+		
+			$title = "Blog";
+			break;
+					
 		default:
 			$title = "Ooops!";
 	}
